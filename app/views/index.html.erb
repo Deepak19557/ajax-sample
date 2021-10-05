@@ -1,0 +1,22 @@
+<h2 style = "text-align:center;"><%= link_to "Remote True Ajax form", user_ajax_form_path, method: :get %></h2>
+<h2 style = "text-align:center;"><%= link_to "On click Ajax form", user_ajax_path, method: :get %></h2>
+
+<%= label_tag :first_name %>
+<%= text_field_tag :first_name, "",id: "ajax_first_name" %> 
+ 
+<button class="save_first_name">Save</button>
+<script type="text/javascript">
+    $(".save_first_name").click(function(){
+        var first_name = $("#ajax_first_name").val();
+        $.ajax({
+            url: "/user/create_ajax_form_user",
+            method: "post",
+            data: {first_name: first_name}
+        })
+    });  
+</script>  
+
+<% User.all.order(created_at: :desc).each do |user| %>  
+  <%= user.first_name %><br>
+<%end%>
+ 

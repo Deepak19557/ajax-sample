@@ -1,0 +1,13 @@
+<%= text_field_tag :first_name, "",id: "ajax_first_name" %>
+<button class="save_first_name">Save</button>
+
+<script type="text/javascript">
+   $(".save_first_name").click(function(){
+       var first_name = $("#ajax_first_name").val();
+       $.ajax({
+           url: "/friend/create_ajax_form_friend",
+           method: "post",
+           data: {first_name: first_name}
+       })
+   });
+</script>

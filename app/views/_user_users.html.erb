@@ -1,0 +1,92 @@
+<!--   <%#= form_tag user_create_ajax_path, remote: true , multipart: true do %> 
+<%= form_for(@user) do |form| %> 
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name %>
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name %>
+    <%= form.label :city_name %>
+    <%= form.text_field :city_name %> 
+    <%= form.label :language %>
+    <%= form.text_field :language %> 
+    <%= <button class="save_first_name">Save</button> %> 
+
+<script>
+     jQuery(document).ready(function() {
+     $('#ajax_form').submit(function(e) {
+     e.preventDefault();
+     $.ajax({
+     url:"/user/create_ajax",
+     method: "post",
+     data: new FormData(this),
+     contentType: false,
+     processData: false,
+     });
+     });
+     });
+</script> 
+
+<button class="save_first_name">Save</button>
+<script type="text/javascript">
+    $(".save_first_name").click(function(){
+        var first_name = $("#ajax_first_name").val();
+        $.ajax({
+            url: "/user/create_ajax_form_user",
+            method: "post",
+            data: {first_name: first_name}
+        })
+    });  
+</script>  
+<% end %> 
+<% User.all.order(created_at: :desc).each do |user| %>  
+    <%= user.language %><br>
+    <%= user.city_name %><br>
+    <%= user.first_name %><br>
+    <%= user.last_name %><br>  
+    <% (0...user.images.count).each do |image| %>
+        <p><a href=""><%= image_tag(user.images[image],style:"width:20%;height:15%; cursor: pointer;") %></a></p>
+    <%end%>
+<% end %>    -->
+
+
+  
+ <form id = "ajax_form"> 
+    <%= label_tag :language %><br> 
+    <%= text_field_tag :language %>  
+    <%= label_tag :first_name %><br> 
+    <%= text_field_tag :first_name %> 
+    <%= label_tag :last_name  %><br> 
+    <%= text_field_tag :last_name %> 
+    <%= label_tag :city_name %><br> 
+    <%= text_field_tag :city_name %> 
+    <label for="image">Image</label>
+    <%= file_field_tag :images, multiple:true, name: "images[]" %>
+    <div class="actions">
+        <%= submit_tag "submit" %> 
+   </div>
+</form> 
+
+<script>
+     jQuery(document).ready(function() {
+     $('#ajax_form').submit(function(e) {
+     e.preventDefault();
+     $.ajax({
+     url:"/user/create_ajax",
+     method: "post",
+     data: new FormData(this),
+     contentType: false,
+     processData: false,
+     
+     });
+     });
+     });
+</script>  
+<% User.all.order(created_at: :desc).each do |user| %>  
+    <%= user.language %><br>
+    <%= user.city_name %><br>
+    <%= user.first_name %><br>
+    <%= user.last_name %><br>  
+    <% (0...user.images.count).each do |image| %>
+        <p><a href=""><%= image_tag(user.images[image],style:"width:20%;height:15%; cursor: pointer;") %></a></p>
+    <%end%>
+<% end %>  
+<%= link_to 'Edit', edit_user_path %>
